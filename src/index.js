@@ -16,7 +16,7 @@ async function GetWeatherData(event){
     const location = document.querySelector('input').value;
     document.querySelector('input').value='';
     try {
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${location}&days=3`,{mode: 'cors'});
+        const response = await fetch(`//api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${location}&days=3`,{mode: 'cors'});
         if (response.status=== 200){
             const weatherData = await response.json();
             currentWeatherData = filterData(weatherData);
