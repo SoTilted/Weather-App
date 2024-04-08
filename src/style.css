@@ -132,13 +132,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow: hidden;
 }
 
 
 
 .weather-next-24-hours {
-    overflow: hidden;
     padding: 10px 25px 10px 25px;
 
 }
