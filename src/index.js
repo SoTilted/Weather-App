@@ -22,6 +22,7 @@ async function GetWeatherData(event){
             const weatherData = await response.json();
             currentWeatherData = filterData(weatherData);
             content.innerHTML = '';
+            content.classList.remove('error');
             createContent(currentWeatherData);
         } else {
             throw new Error(response.status);
