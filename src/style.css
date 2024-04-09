@@ -78,7 +78,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow: hidden;
 }
 .footer {
     padding: 20px 10px 20px 10px;
@@ -169,10 +168,11 @@ input::-webkit-input-placeholder, input:-ms-input-placeholder {
     padding: 16px;
     margin: 10px 25px 10px 25px;
     box-shadow: 10px 5px 5px rgb(0, 0, 0,0.6);
-    overflow: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     font-size:  2rem;
+    max-height: 70dvh;
+    overflow: scroll;
 }
 .weather-24-hours ul li {
     border: 1px solid teal;
