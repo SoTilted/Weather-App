@@ -12,6 +12,7 @@ searchButton.addEventListener('click',GetWeatherData);
 
 async function GetWeatherData(event){
     event.preventDefault();
+    content.innerHTML = '';
     content.appendChild(loadingAnimation);
     const location = document.querySelector('input').value;
     document.querySelector('input').value='';
@@ -21,7 +22,6 @@ async function GetWeatherData(event){
             const weatherData = await response.json();
             currentWeatherData = filterData(weatherData);
             content.innerHTML = '';
-            content.classList.remove('error');
             createContent(currentWeatherData);
         } else {
             throw new Error(response.status);
