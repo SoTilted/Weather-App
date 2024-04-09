@@ -1,9 +1,6 @@
 const content = document.querySelector('.content');
 
 function createCurrentWeather (data) {
-    // i will make a function that creates the content 
-    // also i will maybe do something like the image slide show to have 
-    // multiple locations that you can see the weather
     const weatherNowElement= document.createElement('div');
     weatherNowElement.setAttribute('class','weather-now');
     const weatherNowLocation = document.createElement('h3');
@@ -20,23 +17,7 @@ function createCurrentWeather (data) {
 function createNext24HoursWeather (data) {
     const weatherNext24HoursElement = document.createElement('div');
     weatherNext24HoursElement.setAttribute('class','weather-next-24-hours');
-    const weatherNext24HoursList = document.createElement('ul');
-    for (let i=0; i<data.weather.hourlyWeatherNext24Hours.length; i++) {
-        let listItem = document.createElement('li');
-        let listItemDiv = document.createElement('div');
-        listItemDiv.setAttribute('class','hourly-weather');
-        let listItemHour = document.createElement('p');
-        let listItemIcon = document.createElement('img');
-        listItemIcon.setAttribute('src','');
-        listItemIcon.setAttribute('alt','');
-        let listItemTemp = document.createElement('p');
-        listItem.appendChild(listItemDiv);
-        listItemDiv.append(listItemHour,listItemIcon,listItemTemp);
-        listItemHour.textContent = data.weather.hourlyWeatherNext24Hours[i].time;
-        listItemIcon.src = 'https:'+data.weather.hourlyWeatherNext24Hours[i].condition;
-        listItemTemp.innerHTML = data.weather.hourlyWeatherNext24Hours[i].temperature + '&#176;';
-        weatherNext24HoursList.appendChild(listItem);
-    }
+    const weatherNext24HoursList = createList(data.weather.hourlyWeatherNext24Hours);
     weatherNext24HoursElement.appendChild(weatherNext24HoursList);
     content.appendChild(weatherNext24HoursElement);
 }
@@ -46,30 +27,7 @@ function createWeatherForecast (data) {
     weatherForecastElement.setAttribute('class','weather-forecast');
     content.appendChild(weatherForecastElement);
 
-    // function showDayForecast(event){
-    //     content.innerHTML ='';
-    //     const weather24HoursElement = document.createElement('div');
-    //     weather24HoursElement.setAttribute('class','weather-24-hours');
-    //     const weather24HoursList = document.createElement('ul');
-    //     for (let i=0; i<data.forecast[this.id].hourlyWeather.length; i++) {
-    //         let listItem = document.createElement('li');
-    //         let listItemDiv = document.createElement('div');
-    //         listItemDiv.setAttribute('class','hourly-weather');
-    //         let listItemHour = document.createElement('p');
-    //         let listItemIcon = document.createElement('img');
-    //         listItemIcon.setAttribute('src','');
-    //         listItemIcon.setAttribute('alt','');
-    //         let listItemTemp = document.createElement('p');
-    //         listItem.appendChild(listItemDiv);
-    //         listItemDiv.append(listItemHour,listItemIcon,listItemTemp);
-    //         listItemHour.textContent = data.forecast[this.id].hourlyWeather[i].time;
-    //         listItemIcon.src = 'https:'+data.forecast[this.id].hourlyWeather[i].condition;
-    //         listItemTemp.innerHTML =data.forecast[this.id].hourlyWeather[i].temperature + '&#176;';
-    //         weather24HoursList.appendChild(listItem);
-    //     }
-    //     weather24HoursElement.appendChild(weather24HoursList);
-    //     content.appendChild(weather24HoursElement);
-    // }
+
     for (let i=0; i<3; i++){
         let weatherForecastDay = document.createElement('div');
         weatherForecastDay.setAttribute('id',`day${i+1}`);
@@ -89,10 +47,52 @@ function createWeatherForecast (data) {
         weatherForecastDayMaxTemp.innerHTML = data.forecast[`day${i+1}`].max_temp + '&#176;';
         weatherForecastElement.appendChild(weatherForecastDay);
 
-        // weatherForecastDay.addEventListener('click',showDayForecast);
+        weatherForecastDay.addEventListener('click',showForecast);
+    }
+    function showForecast(){
+        const topElement = document.createElement('div');
+        topElement.setAttribute('class','top-element');
+        const topElementGoBackButton = document.createElement('button');
+        topElementGoBackButton.setAttribute('id','go-back');
+        const topElementDay = document.createElement('h1');
+        topElement.append(topElementGoBackButton,topElementDay);
+        topElementDay.textContent = data.forecast[this.id].day;
+
+        const weather24HoursList = createList(data.forecast[this.id].hourlyWeather);
+        const weather24Hours = document.createElement('div');
+        weather24Hours.setAttribute('class','weather-24-hours');
+        weather24Hours.appendChild(weather24HoursList);
+        content.innerHTML = '';
+        content.append(topElement,weather24Hours);
+        topElementGoBackButton.addEventListener('click',()=>{
+            content.innerHTML = '';
+            createContent(data);
+        });
     }
 }
 
+
+
+function createList(weatherForecast){
+    const list = document.createElement('ul');
+    for (let i=0; i<weatherForecast.length; i++) {
+        let listItem = document.createElement('li');
+        let listItemDiv = document.createElement('div');
+        listItemDiv.setAttribute('class','hourly-weather');
+        let listItemHour = document.createElement('p');
+        let listItemIcon = document.createElement('img');
+        listItemIcon.setAttribute('src','');
+        listItemIcon.setAttribute('alt','');
+        let listItemTemp = document.createElement('p');
+        listItem.appendChild(listItemDiv);
+        listItemDiv.append(listItemHour,listItemIcon,listItemTemp);
+        listItemHour.textContent = weatherForecast[i].time;
+        listItemIcon.src = 'https:'+weatherForecast[i].condition;
+        listItemTemp.innerHTML = weatherForecast[i].temperature + '&#176;';
+        list.appendChild(listItem);
+    }
+    return list
+}
 
 
 
